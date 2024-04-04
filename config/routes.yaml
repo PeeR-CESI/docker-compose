@@ -1,32 +1,46 @@
 http:
   routers:
     web-to-frontend:
-      rule: "Host(`peer.cesi`)"
+      rule: "Host(`peer.cesi`) && Path(`/`)"
       service: "frontend-service"
       entryPoints:
         - "http"
 
-    hello-world-user:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
-      service: "user-management-service"
-      entryPoints:
-        - "http"
+    # hello-world-user:
+    #   rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
+    #   service: "user-management-service"
+    #   entryPoints:
+    #     - "http"
 
     service-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/service`)"
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/service`)"
       service: "service-management-service"
+      middlewares:
+        - "strip-api-prefix"
       entryPoints:
         - "http"
 
     auth-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/auth`)"
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/auth`)"
       service: "user-management-service"
+      middlewares:
+        - "strip-api-prefix"
       entryPoints:
         - "http"
 
     user-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/user`)"
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/user`)"
       service: "user-management-service"
+      middlewares:
+        - "strip-api-prefix"
+      entryPoints:
+        - "http"
+
+    avis-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/avis`)"
+      service: "service-management-service"
+      middlewares:
+        - "strip-api-prefix"
       entryPoints:
         - "http"
 
@@ -52,3 +66,8 @@ http:
         servers:
           - url: "http://messaging-service:5030"
 
+  middlewares:
+    strip-api-prefix:
+      stripPrefix:
+        prefixes:
+          - "/api"
