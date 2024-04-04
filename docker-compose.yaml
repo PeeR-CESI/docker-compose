@@ -2,8 +2,10 @@
 version: '3.8'
 
 services:
+  
   traefik:
     image: traefik:v2.11
+    restart : unless-stopped
     command:
       - "--api.insecure=true"
       - "--providers.docker=true" # Active la découverte automatique des conteneurs Docker
@@ -16,37 +18,83 @@ services:
       # - "--certificatesresolvers.myresolver.acme.email=your-email@example.com"
       # - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
     ports:
-      - "80:80" # Et potentiellement "443:443" pour HTTPS plus tard
+      - "80:80" # HTTP
+      # - "443:443" # HTTPS
+      - "8081:8080" # Dashboard
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock" # Permet à Traefik d'interagir avec l'API Docker
       - "./config:/etc/traefik/config" # Emplacement des fichiers de configuration dynamique
-      # Si on veut du HTTPS :
-      # - "./acme.json:/acme.json"
+      # - "./acme.json:/acme.json" # Certificats HTTPS
     networks:
       - microservices
 
   # frontend:
   #   image: xpapaya/frontend:v0.1.0
+  #   restart : unless-stopped
   #   ports:
   #     - "8080:80"
   #   networks:
   #     - microservices
 
-  user-management:
-    image: xpapaya/user-management:v0.1.1
+  # user-management:
+  #   image: xpapaya/user-management:v0.1.1
+  #   restart : unless-stopped
+  #   networks:
+  #     - microservices
+
+  service-management:
+    image: xpapaya/service-management:v0.1.1
+    restart : unless-stopped
     networks:
       - microservices
+
+  # messaging-service:
+  #   image: xpapaya/messaging-service:v0.1.0
+  #   restart : unless-stopped
+  #   networks:
+  #     - microservices
+
+  # notification-service:
+  #   image: xpapaya/notification-service:v0.1.0
+  #   restart : unless-stopped
+  #   networks:
+  #     - microservices
   
   mongodb:
     image: mongo:latest
+    restart : unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
-    # volumes:
-    #   - ./mongo-data:/data/db:Z
+    volumes:
+      - mongo-data:/data/db
     networks:
       - microservices
+
+  # postgresql:
+  #   image: postgres:latest
+  #   restart : unless-stopped
+  #   environment:
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: admin
+  #     # POSTGRES_DB:
+  #   # volumes:
+  #   #   - postgres-data:/var/lib/postgresql/data:Z
+  #   networks:
+  #     - microservices
+
+  # adminer:
+  #   image: adminer:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - "7070:8080"
+  #   networks:
+  #     - microservices
 
 networks:
   microservices:
     name: microservices
+
+volumes:
+  mongo-data:
+  # postgres-data:
