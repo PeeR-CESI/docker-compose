@@ -26,13 +26,13 @@ services:
     networks:
       - microservices
 
-  frontend:
-    image: xpapaya/front-end:v0.1.0
-    restart : unless-stopped
-    ports:
-      - "8080:80"
-    networks:
-      - microservices
+  # frontend:
+  #   image: xpapaya/front-end:v0.1.0
+  #   restart : unless-stopped
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - microservices
 
   # user-management:
   #   image: xpapaya/user-management:v0.1.1
@@ -42,13 +42,13 @@ services:
   #   networks:
   #     - microservices
 
-  service-management:
-    image: xpapaya/service-management:v0.1.1
-    depends_on:
-      - mongodb
-    restart : unless-stopped
-    networks:
-      - microservices
+  # service-management:
+  #   image: xpapaya/service-management:v0.3.0
+  #   depends_on:
+  #     - mongodb
+  #   restart : unless-stopped
+  #   networks:
+  #     - microservices
 
   # messaging-service:
   #   image: xpapaya/messaging-service:v0.1.0
@@ -64,16 +64,16 @@ services:
   #   networks:
   #     - microservices
   
-  mongodb:
-    image: mongo:latest
-    restart : unless-stopped
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - microservices
+  # mongodb:
+  #   image: mongo:latest
+  #   restart : unless-stopped
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   networks:
+  #     - microservices
 
   # postgresql:
   #   image: postgres:latest
@@ -95,13 +95,13 @@ services:
   #   networks:
   #     - microservices
 
-  redis:
-    image: redis:latest
-    restart: unless-stopped
-    volumes:
-      - redis-data:/data
-    networks:
-      - microservices
+  # redis:
+  #   image: redis:latest
+  #   restart: unless-stopped
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - microservices
 
 networks:
   microservices:
