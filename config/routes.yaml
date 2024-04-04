@@ -1,7 +1,7 @@
 http:
   routers:
     web-to-frontend:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
+      rule: "Host(`peer.cesi`) && !PathPrefix(`/api`)"
       service: "frontend-service"
       priority: 1
       entryPoints:
@@ -54,6 +54,7 @@ http:
       service: "adminer-dashboard"
       middlewares:
         - "strip-adminer-prefix"
+      priority: 10
       entryPoints:
         - "http"
 
