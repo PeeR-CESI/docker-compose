@@ -1,6 +1,7 @@
 # docker-compose
 Tout ce qu'il faut pour déployer l'application web PeeR en utilisant Docker Compose.
 
+
 ## Configuration du Fichier hosts
 
 Il est nécessaire de s'assurer que le nom de domaine "peer.cesi" pointe vers la bonne adresse IP (ici, localhost).
@@ -12,8 +13,9 @@ Pour cela, ajoutez une entrée dans le fichier hosts :
 
 Ajoutez la ligne suivante si elle n'est pas déjà présente :
 
-> 127.0.0.1 peer.cesi
-
+```bash
+127.0.0.1 peer.cesi
+```
 
 **N'oubliez pas de redémarrer votre ordinateur !**
 
@@ -24,7 +26,9 @@ Cette étape est cruciale pour s'assurer que lorsque vous envoyez une requête �
 
 Clonez le dépôt avec la commande suivante :
 
-> git clone https://github.com/PeeR-CESI/docker-compose.git
+```bash
+git clone https://github.com/PeeR-CESI/docker-compose.git
+```
 
 
 
@@ -32,12 +36,16 @@ Clonez le dépôt avec la commande suivante :
 
 Pour déployer l'application dans l'environnement Docker, naviguez jusqu'à la racine du dossier cloné et exécutez cette commande :
 
-> docker compose up
+```bash
+docker compose up
+```
 
 
 Pour lancer l'application en mode détaché (les conteneurs fonctionneront en arrière-plan) :
 
-> docker compose up -d
+```bash
+docker compose up -d
+```
 
 
 
@@ -45,25 +53,33 @@ Pour lancer l'application en mode détaché (les conteneurs fonctionneront en ar
 
 Pour afficher la liste des conteneurs Docker actifs :
 
-> docker ps
+```bash
+docker ps
+```
 
 Dans la sortie, notez l'ID du conteneur dont vous souhaitez voir les logs, puis utilisez :
 
-> docker logs {ID}
+```bash
+docker logs {ID}
+```
 
 
 ## Arrêter et Supprimer les Conteneurs
 
 Pour arrêter les conteneurs en cours d'exécution :
 
-> docker compose down
+```bash
+docker compose down
+```
 
 
 ## Nettoyer les Volumes
 
 Si vous souhaitez supprimer les données persistantes et repartir de zéro, n'oubliez pas de supprimer aussi les volumes :
 
-> docker volume rm $(docker volume ls -q)
+```bash
+docker volume rm $(docker volume ls -q)
+```
 
 
 **Attention :** Cette commande supprimera tous les volumes Docker non utilisés par des conteneurs actifs. Si vous souhaitez supprimer uniquement les volumes spécifiques à ce projet, spécifiez leurs noms explicitement.
