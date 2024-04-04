@@ -1,19 +1,18 @@
 http:
   routers:
-
     web-to-frontend:
       rule: "Host(`peer.cesi`)"
       service: "frontend-service"
       entryPoints:
         - "http"
 
-    test-hello-user:
+    hello-world-user:
       rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
       service: "user-management-service"
       entryPoints:
         - "http"
 
-    test-hello-service:
+    service-router:
       rule: "Host(`peer.cesi`) && PathPrefix(`/service`)"
       service: "service-management-service"
       entryPoints:
@@ -32,7 +31,6 @@ http:
         - "http"
 
   services:
-
     frontend-service:
       loadBalancer:
         servers:
@@ -44,12 +42,13 @@ http:
     service-management-service:
       loadBalancer:
         servers:
-          - url: "http://service-management:6000"
-    messaging-service:
-      loadBalancer:
-        servers:
-          - url: "http://messaging-service:7000"
+          - url: "http://service-management:5010"
     notification-service:
       loadBalancer:
         servers:
-          - url: "http://notification-service:8000"
+          - url: "http://notification-service:5020"
+    messaging-service:
+      loadBalancer:
+        servers:
+          - url: "http://messaging-service:5030"
+

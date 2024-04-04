@@ -1,8 +1,6 @@
 ---
 version: '3.8'
-
 services:
-  
   traefik:
     image: traefik:v2.11
     restart : unless-stopped
@@ -28,22 +26,26 @@ services:
     networks:
       - microservices
 
-  # frontend:
-  #   image: xpapaya/frontend:v0.1.0
-  #   restart : unless-stopped
-  #   ports:
-  #     - "8080:80"
-  #   networks:
-  #     - microservices
+  frontend:
+    image: xpapaya/front-end:v0.1.0
+    restart : unless-stopped
+    ports:
+      - "8080:80"
+    networks:
+      - microservices
 
   # user-management:
   #   image: xpapaya/user-management:v0.1.1
+  #   depends_on:
+  #     - postgresql
   #   restart : unless-stopped
   #   networks:
   #     - microservices
 
   service-management:
     image: xpapaya/service-management:v0.1.1
+    depends_on:
+      - mongodb
     restart : unless-stopped
     networks:
       - microservices
@@ -56,6 +58,8 @@ services:
 
   # notification-service:
   #   image: xpapaya/notification-service:v0.1.0
+  #   depends_on:
+  #     - redis
   #   restart : unless-stopped
   #   networks:
   #     - microservices
@@ -87,9 +91,17 @@ services:
   #   image: adminer:latest
   #   restart: unless-stopped
   #   ports:
-  #     - "7070:8080"
+  #     - "5050:8080"
   #   networks:
   #     - microservices
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - microservices
 
 networks:
   microservices:
@@ -97,4 +109,5 @@ networks:
 
 volumes:
   mongo-data:
+  redis-data:
   # postgres-data:

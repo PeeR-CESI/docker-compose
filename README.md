@@ -84,6 +84,20 @@ docker volume rm $(docker volume ls -q)
 
 **Attention :** Cette commande supprimera tous les volumes Docker non utilisés par des conteneurs actifs. Si vous souhaitez supprimer uniquement les volumes spécifiques à ce projet, spécifiez leurs noms explicitement.
 
+
+
+## Forcer le nettoyage de tout l'environnement Docker
+
+```bash
+docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+docker rmi -f $(docker images -aq)
+docker volume rm $(docker volume ls -q)
+docker network prune -f
+```
+
+**Attention :** Ces commandes supprimeront de manière irréversible toutes tes données dans les conteneurs, les images, les volumes, et les réseaux (à l'exception des réseaux par défaut de Docker qui ne peuvent pas être supprimés). Assure-toi d'avoir des sauvegardes ou d'être sûr de ne pas avoir besoin de ces données avant de procéder.
+
+
 ---
 
 Suivez ces étapes pour configurer, déployer et gérer votre application web PeeR avec Docker Compose.
