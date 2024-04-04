@@ -1,0 +1,49 @@
+http:
+  routers:
+    web-to-frontend:
+      rule: "Host(`peer.cesi`)"
+      service: "frontend-service"
+      entryPoints:
+        - "http"
+
+    hello-world:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
+      service: "user-management-service"
+      entryPoints:
+        - "http"
+        
+    auth-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/auth`)"
+      service: "user-management-service"
+      # middlewares:
+      #   - "auth-stripprefix"
+      entryPoints:
+        - "http"
+
+    user-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/user`)"
+      service: "user-management-service"
+      # middlewares:
+      #   - "user-stripprefix"
+      entryPoints:
+        - "http"
+
+  services:
+    frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:80"
+    user-management-service:
+      loadBalancer:
+        servers:
+          - url: "http://user-management:5000"
+
+  # middlewares:
+  #   auth-stripprefix:
+  #     stripPrefix:
+  #       prefixes:
+  #         - "/auth"
+  #   user-stripprefix:
+  #     stripPrefix:
+  #       prefixes:
+  #         - "/user"

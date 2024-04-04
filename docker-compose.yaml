@@ -1,0 +1,52 @@
+---
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true" # Active la découverte automatique des conteneurs Docker
+      - "--providers.file.directory=/etc/traefik/config" # Pour la configuration dynamique depuis des fichiers
+      - "--providers.file.watch=true" # Traefik surveille les changements de configuration
+      - "--entryPoints.http.address=:80" # Définit l'entrée pour le trafic HTTP
+      # Si on veut du HTTPS :
+      # - "--entryPoints.https.address=:443"
+      # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # - "--certificatesresolvers.myresolver.acme.email=your-email@example.com"
+      # - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+    ports:
+      - "80:80" # Et potentiellement "443:443" pour HTTPS plus tard
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock" # Permet à Traefik d'interagir avec l'API Docker
+      - "./config:/etc/traefik/config" # Emplacement des fichiers de configuration dynamique
+      # Si on veut du HTTPS :
+      # - "./acme.json:/acme.json"
+    networks:
+      - microservices
+
+  # frontend:
+  #   image: xpapaya/frontend:v0.1.0
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - microservices
+
+  user-management:
+    image: xpapaya/user-management:v0.1.1
+    networks:
+      - microservices
+  
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    # volumes:
+    #   - ./mongo-data:/data/db:Z
+    networks:
+      - microservices
+
+networks:
+  microservices:
+    name: microservices
