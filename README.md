@@ -115,18 +115,8 @@ Dans la sortie, copiez l'ID du conteneur dont vous souhaitez voir les logs, puis
 docker logs {ID}
 ```
 
-## 6. Arrêter et Supprimer les Conteneurs
 
-Pour arrêter les conteneurs en cours d'exécution :
-
-```bash
-docker compose down
-```
-
-**Les données des bases de données sont persistantes ! (si vous voulez supprimer les data des bases de données, cf. la section "Nettoyer les Volumes")**
-
-
-## 7. Testez votre version du microservice testé
+## 6. Testez votre version du microservice testé
 
 Maintenant, il faut **valider** les modifications que vous avez apportés à la version de l'image Docker déployée avant de pouvoir lancer la CI de "release" (celle qui promeut l'image pour la prod = avec un incrément de SemVer)
 
@@ -156,6 +146,18 @@ Si vous souhaitez tester le **front-end**, vous avez deux options.
 3. Tester l'application
 4. Débugger
 5. Valider les modifications en lançant la CI de release manuellement sur github
+
+
+## 7. Arrêter et Supprimer les Conteneurs
+
+Pour arrêter les conteneurs en cours d'exécution :
+
+```bash
+docker compose down
+```
+
+**Les données des bases de données sont persistantes ! (si vous voulez supprimer les data des bases de données, cf. la section "Nettoyer les Volumes")**
+
 
 ## Optionnel : Nettoyer les Volumes
 
