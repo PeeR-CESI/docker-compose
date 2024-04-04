@@ -1,8 +1,9 @@
 http:
   routers:
     web-to-frontend:
-      rule: "Host(`peer.cesi`) && Path(`/`)"
+      rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
       service: "frontend-service"
+      priority: 1
       entryPoints:
         - "http"
 
@@ -17,6 +18,7 @@ http:
       service: "service-management-service"
       middlewares:
         - "strip-api-prefix"
+      priority: 10
       entryPoints:
         - "http"
 
@@ -25,6 +27,7 @@ http:
       service: "user-management-service"
       middlewares:
         - "strip-api-prefix"
+      priority: 10
       entryPoints:
         - "http"
 
@@ -33,6 +36,7 @@ http:
       service: "user-management-service"
       middlewares:
         - "strip-api-prefix"
+      priority: 10
       entryPoints:
         - "http"
 
@@ -41,6 +45,15 @@ http:
       service: "service-management-service"
       middlewares:
         - "strip-api-prefix"
+      priority: 10
+      entryPoints:
+        - "http"
+
+    adminer-dashboard-router:
+      rule: "Host(`peer.cesi`) && Path(`/adminer`)"
+      service: "adminer-dashboard"
+      middlewares:
+        - "strip-adminer-prefix"
       entryPoints:
         - "http"
 
@@ -65,9 +78,17 @@ http:
       loadBalancer:
         servers:
           - url: "http://messaging-service:5030"
+    adminer-dashboard:
+      loadBalancer:
+        servers:
+          - url: "http://adminer:8080"
 
   middlewares:
     strip-api-prefix:
       stripPrefix:
         prefixes:
           - "/api"
+    strip-adminer-prefix:
+      stripPrefix:
+        prefixes:
+          - "/adminer"
