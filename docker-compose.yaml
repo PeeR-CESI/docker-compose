@@ -37,20 +37,26 @@ services:
   #   image: xpapaya/user-management:v0.1.1
   #   depends_on:
   #     - postgresql
+  #   ports:
+  #   - "5000:5000" # Accès à swagger sur http://localhost:5000/apidocs
   #   restart : unless-stopped
   #   networks:
   #     - microservices
 
   # service-management:
-  #   image: xpapaya/service-management:dev-8
+  #   image: service-management:latest
   #   depends_on:
   #     - mongodb
+  #   ports:
+  #   - "5010:5010" # Accès à swagger sur http://localhost:5010/apidocs
   #   restart : unless-stopped
   #   networks:
   #     - microservices
 
   # messaging-service:
   #   image: xpapaya/messaging-service:v0.1.0
+  #   ports:
+  #   - "5030:5030" # Accès à swagger sur http://localhost:5030/apidocs
   #   restart : unless-stopped
   #   networks:
   #     - microservices
@@ -59,6 +65,8 @@ services:
   #   image: xpapaya/notification-service:v0.1.0
   #   depends_on:
   #     - redis
+  #   ports:
+  #   - "5020:5020" # Accès à swagger sur http://localhost:5020/apidocs
   #   restart : unless-stopped
   #   networks:
   #     - microservices
