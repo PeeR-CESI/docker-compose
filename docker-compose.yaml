@@ -34,7 +34,7 @@ services:
   #     - microservices
 
   # user-management:
-  #   image: xpapaya/user-management:v0.1.1
+  #   image: xpapaya/user-management:v0.2.0
   #   depends_on:
   #     - postgresql
   #   ports:
