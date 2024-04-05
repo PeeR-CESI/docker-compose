@@ -44,7 +44,7 @@ services:
   #     - microservices
 
   # service-management:
-  #   image: service-management:latest
+  #   image: xpapaya/service-management:v0.3.0
   #   depends_on:
   #     - mongodb
   #   ports:
