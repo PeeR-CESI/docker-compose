@@ -1,27 +1,23 @@
 http:
   routers:
+  # frontend routers :
     web-to-frontend:
       rule: "Host(`peer.cesi`) && !PathPrefix(`/api`)"
       service: "frontend-service"
       priority: 1
       entryPoints:
         - "http"
-
-    # hello-world-user:
-    #   rule: "Host(`peer.cesi`) && PathPrefix(`/`)"
-    #   service: "user-management-service"
-    #   entryPoints:
-    #     - "http"
-
-    service-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/api/service`)"
-      service: "service-management-service"
+  
+  # user-management routers :
+    user-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/user`)"
+      service: "user-management-service"
       middlewares:
         - "strip-api-prefix"
       priority: 10
       entryPoints:
         - "http"
-
+    
     auth-router:
       rule: "Host(`peer.cesi`) && PathPrefix(`/api/auth`)"
       service: "user-management-service"
@@ -31,8 +27,8 @@ http:
       entryPoints:
         - "http"
 
-    user-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/api/user`)"
+    review-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/review`)"
       service: "user-management-service"
       middlewares:
         - "strip-api-prefix"
@@ -40,8 +36,18 @@ http:
       entryPoints:
         - "http"
 
-    avis-router:
-      rule: "Host(`peer.cesi`) && PathPrefix(`/api/avis`)"
+    sponsor-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/sponsor`)"
+      service: "user-management-service"
+      middlewares:
+        - "strip-api-prefix"
+      priority: 10
+      entryPoints:
+        - "http"
+
+  # service-management routers :
+    service-router:
+      rule: "Host(`peer.cesi`) && PathPrefix(`/api/service`)"
       service: "service-management-service"
       middlewares:
         - "strip-api-prefix"
@@ -49,6 +55,7 @@ http:
       entryPoints:
         - "http"
 
+  # adminer router :
     adminer-dashboard-router:
       rule: "Host(`peer.cesi`) && Path(`/adminer`)"
       service: "adminer-dashboard"
