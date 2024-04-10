@@ -66,10 +66,14 @@ http:
         - "http"
 
   services:
+    # frontend-service:
+    #   loadBalancer:
+    #     servers:
+    #       - url: "http://frontend:80"
     frontend-service:
       loadBalancer:
         servers:
-          - url: "http://frontend:80"
+          - url: "http://frontend-bis:80"
     user-management-service:
       loadBalancer:
         servers:

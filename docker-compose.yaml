@@ -33,25 +33,35 @@ services:
   #   networks:
   #     - microservices
 
-  # user-management:
-  #   image: xpapaya/user-management:v0.5.0
-  #   depends_on:
-  #     - postgresql
-  #   ports:
-  #   - "5000:5000" # Accès à swagger sur http://localhost:5000/apidocs
-  #   restart : unless-stopped
-  #   networks:
-  #     - microservices
+  frontend-bis:
+    image: xpapaya/front-test:pr-3
+    restart : unless-stopped
+    ports:
+      - "8080:80"
+    volumes: 
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - microservices
 
-  # service-management:
-  #   image: xpapaya/service-management:v0.4.1
-  #   depends_on:
-  #     - mongodb
-  #   ports:
-  #   - "5010:5010" # Accès à swagger sur http://localhost:5010/apidocs
-  #   restart : unless-stopped
-  #   networks:
-  #     - microservices
+  user-management:
+    image: xpapaya/user-management:v0.6.0
+    depends_on:
+      - postgresql
+    ports:
+    - "5000:5000" # Accès à swagger sur http://localhost:5000/apidocs
+    restart : unless-stopped
+    networks:
+      - microservices
+
+  service-management:
+    image: xpapaya/service-management:v0.6.0
+    depends_on:
+      - mongodb
+    ports:
+    - "5010:5010" # Accès à swagger sur http://localhost:5010/apidocs
+    restart : unless-stopped
+    networks:
+      - microservices
 
   # messaging-service:
   #   image: xpapaya/messaging-service:v0.1.0
@@ -71,28 +81,28 @@ services:
   #   networks:
   #     - microservices
   
-  # mongodb:
-  #   image: mongo:latest
-  #   restart : unless-stopped
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: admin
-  #     MONGO_INITDB_ROOT_PASSWORD: admin
-  #   volumes:
-  #     - mongo-data:/data/db
-  #   networks:
-  #     - microservices
+  mongodb:
+    image: mongo:latest
+    restart : unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - microservices
 
-  # postgresql:
-  #   image: postgres:latest
-  #   restart : unless-stopped
-  #   environment:
-  #     POSTGRES_USER: admin
-  #     POSTGRES_PASSWORD: admin
-  #     # POSTGRES_DB:
-  #   volumes:
-  #     - postgres-data:/var/lib/postgresql/data:Z
-  #   networks:
-  #     - microservices
+  postgresql:
+    image: postgres:latest
+    restart : unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      # POSTGRES_DB:
+    volumes:
+      - postgres-data:/var/lib/postgresql/data:Z
+    networks:
+      - microservices
 
   # adminer:
   #   image: adminer:latest
