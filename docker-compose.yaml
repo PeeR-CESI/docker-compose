@@ -34,7 +34,7 @@ services:
   #     - microservices
 
   frontend-bis:
-    image: xpapaya/front-test:pr-3
+    image: xpapaya/front-test:v0.3.0
     restart : unless-stopped
     ports:
       - "8080:80"
