@@ -34,7 +34,7 @@ services:
   #     - microservices
 
   frontend-bis:
-    image: xpapaya/front-test:v0.3.0
+    image: xpapaya/front-test:v0.6.0
     restart : unless-stopped
     ports:
       - "8080:80"
@@ -44,7 +44,7 @@ services:
       - microservices
 
   user-management:
-    image: xpapaya/user-management:v0.6.0
+    image: xpapaya/user-management:v0.6.1
     depends_on:
       - postgresql
     ports:
@@ -54,7 +54,7 @@ services:
       - microservices
 
   service-management:
-    image: xpapaya/service-management:v0.6.0
+    image: xpapaya/service-management:v0.9.1
     depends_on:
       - mongodb
     ports:
@@ -98,7 +98,6 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      # POSTGRES_DB:
     volumes:
       - postgres-data:/var/lib/postgresql/data:Z
     networks:
